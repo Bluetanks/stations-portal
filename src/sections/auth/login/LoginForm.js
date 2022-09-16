@@ -43,7 +43,7 @@ const dispatch = useDispatch()
         onSuccess:async (data)=>{
             if(data.success) {
 
-                await localStorage.setItem('Token', JSON.stringify(data.data.token));
+                await localStorage.setItem('station-Token', JSON.stringify(data.data.token));
 
                 dispatch(setUser(data.data.station))
                 dispatch(setAuthenticated(true))

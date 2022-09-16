@@ -1,7 +1,7 @@
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import {Link as RouterLink, useParams} from 'react-router-dom';
 // material
 import {
   Card,
@@ -35,7 +35,7 @@ import SelectInput from "@mui/material/Select/SelectInput";
 import {LoadingButton} from "@mui/lab";
 import * as yup from "yup";
 import {useDispatch, useSelector} from "react-redux";
-import {setResponse} from "../app/slices/userSlice";
+import {setResponse, unSetResponse} from "../app/slices/userSlice";
 // ----------------------------------------------------------------------
 
 
@@ -55,7 +55,7 @@ export default function Users() {
     name
   }} = user
 
-
+  const params = useParams()
   const {isLoading, mutate} =useMutation(['update-charge'], updateChargeStatus,{
     onSuccess:(data)=>{
       if(data.success) {
@@ -90,13 +90,31 @@ export default function Users() {
         status
       })
 
-mutate({body,stationId:user.station._id, chargeId:'630ea06c3101b739106ecf1e'})
+mutate({body,stationId:user.station._id, chargeId:params.id})
 //user.station._id
     },
   });
 
   const { errors, touched, values, handleChange, handleSubmit, getFieldProps } = formik;
 
+
+  useEffect(() =>{
+    // console.log(user)
+    if (responseState || responseMessage) {
+
+
+      const time = setTimeout(() => {
+        dispatch(unSetResponse({
+          responseState:false,
+          responseMessage:''
+        }))
+      }, 3000)
+      return () => {
+        clearTimeout(time)
+      };
+    }
+
+  },[responseState,responseMessage])
 
   return (
     <Page title="User">

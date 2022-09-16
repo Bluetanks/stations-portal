@@ -96,7 +96,7 @@ const user = useSelector(state => state.user)
       <NavSection navConfig={navConfig} />
       <Box sx={{ mb: 5, mx: 2.5 }}>
       <Button onClick={() => {
-        localStorage.setItem('Token', JSON.stringify(''))
+        localStorage.setItem('station-Token', JSON.stringify(''))
         dispatch(logoutUser())
       }} variant="contained">
         Logout

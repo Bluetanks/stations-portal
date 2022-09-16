@@ -24,7 +24,7 @@ export default function Router() {
       </AuthGuard>,
       children: [
         { path: 'app', element: <DashboardApp /> },
-        { path: 'users', element: <Users /> },
+        { path: 'charge/:id', element: <Users /> },
 
         { path: 'products', element: <Products /> },
       ],

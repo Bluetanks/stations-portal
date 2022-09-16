@@ -28,18 +28,13 @@ export default function UserMoreMenu(id) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem component={RouterLink} to={`/dashboard/AddPort/${id.id}`} sx={{ color: 'text.secondary' }}>
-          <ListItemIcon>
-            <Iconify icon="eva:plus-circle-fill" width={24} height={24} />
-          </ListItemIcon>
-          <ListItemText primary="Add port" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
 
-        <MenuItem  component={RouterLink} to={`/dashboard/edit/${id.id}`} sx={{ color: 'text.secondary' }}>
+
+        <MenuItem  component={RouterLink} to={`/dashboard/charge/${id.id}`} sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Iconify icon="eva:edit-fill" width={24} height={24} />
           </ListItemIcon>
-          <ListItemText primary="Edit"   primaryTypographyProps={{ variant: 'body2' }} />
+          <ListItemText primary="Update charge"   primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
       </Menu>
     </>
