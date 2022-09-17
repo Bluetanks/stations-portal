@@ -158,12 +158,12 @@ const {station: {_id}} = stationDetails
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
             <AppWidgetSummary title="All charge" total={
-                !isLoading ? users && users?.data?.total : 0
+                !isLoading ? charges && charges?.data?.total : 0
             } color={"primary"} icon={'ant-design:user-outline'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Pending" total={9
+            <AppWidgetSummary title="Pending" total={0
               /*  !loadingCharges ? charges && charges?.data?.total : 0*/
             } color="warning" icon={'ant-design:wifi-outline'} />
           </Grid>
@@ -191,90 +191,97 @@ const {station: {_id}} = stationDetails
 
           <Scrollbar>
             <TableContainer sx={{minWidth: 800}}>
-              <Table>
-                <UserListHead
-                    order={order}
-                    orderBy={orderBy}
-                    headLabel={TABLE_HEAD}
-                    rowCount={!loadingCharges ? charges && charges?.data?.charges.length : 0}
-                    numSelected={selected.length}
-                    onRequestSort={handleRequestSort}
-                    onSelectAllClick={handleSelectAllClick}
-                />
-                <TableBody>
-                  {charges?.data?.charges.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const {
-                      _id, createdAt, isLongTerm, isReservation, origin,status,type
-                    } = row;
-                    const isItemSelected = selected.indexOf(type) !== -1;
+              {
+                  !loadingCharges && charges &&
 
-                    return (
-                        <TableRow
-                            hover
-                            key={_id}
-                            tabIndex={-1}
-                            role="checkbox"
-                            selected={isItemSelected}
-                            aria-checked={isItemSelected}
-                        >
-                          <TableCell padding="checkbox">
-
-                          </TableCell>
-                          <TableCell component="th" scope="row" padding="none">
-                            <Stack direction="row" alignItems="center" spacing={2}>
-
-                              <Typography textTransform={"capitalize"} color={"primary"}
-                                          component={RouterLink} to={`/dashboard/edit/${_id}`}
-                                          variant="subtitle2" noWrap>
-                                {type}
-                              </Typography>
-                            </Stack>
-                          </TableCell>
-                          <TableCell align="left">{origin}</TableCell>
-                          <TableCell align="left">{isLongTerm ? 'Yes' : 'Instantaneous'}</TableCell>
-                          <TableCell align="left">{isReservation ? 'Yes' : 'No'}</TableCell>
-                          <TableCell align="left">
-                            <Label variant="ghost"
-                                   color={(status === 'BOOKED' && 'error') || 'success'}>
-                                {sentenceCase(status)}
-                            </Label>
-                          </TableCell>
-
-                          <TableCell align="right">
-                            <UserMoreMenu id={_id}/>
-                          </TableCell>
-                        </TableRow>
-                    );
-                  })}
-                  {emptyRows > 0 && (
-                      <TableRow style={{height: 53 * emptyRows}}>
-                        <TableCell colSpan={6}/>
-                      </TableRow>
-                  )}
-                </TableBody>
-
-                {!loadingCharges && isUserNotFound && (
+                  <Table>
+                    <UserListHead
+                        order={order}
+                        orderBy={orderBy}
+                        headLabel={TABLE_HEAD}
+                        rowCount={!loadingCharges ? charges && charges?.data?.charges.length : 0}
+                        numSelected={selected.length}
+                        onRequestSort={handleRequestSort}
+                        onSelectAllClick={handleSelectAllClick}
+                    />
                     <TableBody>
-                      <TableRow>
-                        <TableCell align="center" colSpan={6} sx={{py: 3}}>
-                          <SearchNotFound searchQuery={filterName}/>
-                        </TableCell>
-                      </TableRow>
+                      {charges?.data?.charges.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                        const {
+                          _id, createdAt, isLongTerm, isReservation, origin, status, type
+                        } = row;
+                        const isItemSelected = selected.indexOf(type) !== -1;
+
+                        return (
+                            <TableRow
+                                hover
+                                key={_id}
+                                tabIndex={-1}
+                                role="checkbox"
+                                selected={isItemSelected}
+                                aria-checked={isItemSelected}
+                            >
+                              <TableCell padding="checkbox">
+
+                              </TableCell>
+                              <TableCell component="th" scope="row" padding="none">
+                                <Stack direction="row" alignItems="center" spacing={2}>
+
+                                  <Typography textTransform={"capitalize"} color={"primary"}
+                                              component={RouterLink} to={`/dashboard/charge/${_id}`}
+                                              variant="subtitle2" noWrap>
+                                    {type}
+                                  </Typography>
+                                </Stack>
+                              </TableCell>
+                              <TableCell align="left">{origin}</TableCell>
+                              <TableCell align="left">{isLongTerm ? 'Yes' : 'Instantaneous'}</TableCell>
+                              <TableCell align="left">{isReservation ? 'Yes' : 'No'}</TableCell>
+                              <TableCell align="left">
+                                <Label variant="ghost"
+                                       color={(status === 'BOOKED' && 'error') || 'success'}>
+                                  {sentenceCase(status)}
+                                </Label>
+                              </TableCell>
+
+                              <TableCell align="right">
+                                <UserMoreMenu id={_id}/>
+                              </TableCell>
+                            </TableRow>
+                        );
+                      })}
+                      {emptyRows > 0 && (
+                          <TableRow style={{height: 53 * emptyRows}}>
+                            <TableCell colSpan={6}/>
+                          </TableRow>
+                      )}
                     </TableBody>
-                )}
-              </Table>
+
+                    {!loadingCharges && isUserNotFound && (
+                        <TableBody>
+                          <TableRow>
+                            <TableCell align="center" colSpan={6} sx={{py: 3}}>
+                              <SearchNotFound searchQuery={filterName}/>
+                            </TableCell>
+                          </TableRow>
+                        </TableBody>
+                    )}
+                  </Table>
+              }
             </TableContainer>
           </Scrollbar>
 
-          <TablePagination
-              rowsPerPageOptions={[5, 10, 25, 50]}
-              component="div"
-              count={charges && charges?.data?.charges.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+          {
+              !loadingCharges && charges &&
+              <TablePagination
+                  rowsPerPageOptions={[5, 10, 25, 50]}
+                  component="div"
+                  count={charges && charges?.data?.charges.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+          }
         </Card>
 
       </Container>

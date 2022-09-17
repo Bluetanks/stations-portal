@@ -11,11 +11,11 @@ const navConfig = [
     path: '/dashboard/app',
     icon: getIcon('eva:pie-chart-2-fill'),
   },
-  {
+  /*{
     title: 'charges',
     path: '/dashboard/users',
     icon: getIcon('eva:droplet-fill'),
-  },
+  },*/
 
 
 
